@@ -50,7 +50,7 @@ function ChatList() {
                     </div>
                 </div>
                 <div className='flex flex-col gap-1 overflow-y-auto scrollbar-hide'>
-                    {following.length!==0? data.length!==0 ?data?.map((curr) => <div className='flex' onClick={() => selectChat(curr._id)}>
+                    {following?.length!==0? data?.length!==0 ?data?.map((curr) => <div className='flex' onClick={() => selectChat(curr._id)}>
                         <div className='md:w-1/6 w-2/6 my-auto'>
                             <img className=' max-h-[100%] rounded-full' src={curr.picture} alt='profile' />
                         </div>

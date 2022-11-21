@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 function ProtectedRoutes() {
     const dispatch = useDispatch();
     const socket = io.connect("http://44.236.61.154/");
+    
     dispatch(socketReducer(socket))
 
     return (

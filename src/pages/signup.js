@@ -32,7 +32,7 @@ function Signup() {
     const style = {
         display: 'flex',
         flexDirection: 'column',
-        width: 400,
+        width: 320,
         marginTop: 5
     }
 
@@ -57,7 +57,7 @@ function Signup() {
         <Box sx={{
             backgroundColor: 'whitesmoke',
             padding: 1,
-            width: 500,
+            width: 400,
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: 5,

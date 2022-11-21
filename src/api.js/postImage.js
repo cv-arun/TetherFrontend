@@ -3,7 +3,7 @@ import axios from './axios';
 
 const createPost = (data) => {
     let token = JSON.parse(localStorage.getItem('userKey'))
-    console.log(data.entries())
+  
     return new Promise((resolve, rejecct) => {
 
         axios.post('/post/create-post', data, {
