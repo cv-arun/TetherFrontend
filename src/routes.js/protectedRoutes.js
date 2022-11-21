@@ -19,7 +19,7 @@ import { useDispatch } from 'react-redux';
 
 function ProtectedRoutes() {
     const dispatch = useDispatch();
-    const socket = io.connect("http://44.236.61.154/");
+    const socket = io.connect("https://tethersocket.osc-fr1.scalingo.io/");
     
     dispatch(socketReducer(socket))
 
