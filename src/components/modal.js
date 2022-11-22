@@ -11,7 +11,8 @@ import EmojiPicker from 'emoji-picker-react';
 import createPost from '../api.js/postImage';
 import dataURItoBlob from '../helper.js/blob';
 import { Bars } from 'react-loader-spinner';
-import {refreshReducer} from '../redux/refreshSLice';
+import { refreshReducer } from '../redux/refreshSLice';
+import uploadImage from '../api.js/uploadToCloudinary';
 
 
 
@@ -40,7 +41,7 @@ export default function NestedModal() {
   const [images, setImages] = React.useState([]);
   const [validate, setValidate] = React.useState(false)
   const [spinner, setSpinner] = React.useState(false)
-  const [privacy,setPrivacy]=React.useState('followers')
+  const [privacy, setPrivacy] = React.useState('followers')
   const postCaption = React.useRef();
   const open = useSelector(state => state.openModal.openModal);
   const dispatch = useDispatch()
@@ -59,35 +60,35 @@ export default function NestedModal() {
     let end = text.substring(ref.selectionEnd)
     setText(start + emoji + end)
     setShow(false)
-   
+
   }
 
   function fileUploaded(e) {
-
-    const files = Array.from(e.target.files);
-    files.forEach((img) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(img);
-      reader.onload = (readerEvent) => {
-        setImages((images) => [...images, readerEvent.target.result]);
-      };
-    });
+    const files = Object.values(e.target.files)
+    setImages(files)
+    // files.forEach((img) => {
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(img);
+    //   reader.onload = (readerEvent) => {
+    //     setImages((images) => [...images, readerEvent.target.result]);
+    //   };
+    // });
 
   }
 
   const submitPost = () => {
     setSpinner(true)
-    let img = images.map(img => {
-      return dataURItoBlob(img)
+    console.log(images)
+    let url = []
+    images.map(async (img) => {
+      let data = await uploadImage(img)
+      url.push(data)
     })
-    console.log(img, 'img')
     let form = new FormData();
-    img.forEach((img) => {
-      form.append('file', img)
-    })
+    form.append('url', url)
     form.append('caption', text)
     form.append('privacy', privacy)
-    form.append('profile',false)
+    form.append('profile', false)
 
     createPost(form).then(data => {
       setImages([])
@@ -96,7 +97,33 @@ export default function NestedModal() {
       dispatch(refreshReducer())
       dispatch(openReducer(false))
     })
+
   }
+
+
+
+  // const submitPost = () => {
+  //   setSpinner(true)
+  //   let img = images.map(img => {
+  //     return dataURItoBlob(img)
+  //   })
+  //   console.log(img, 'img')
+  //   let form = new FormData();
+  //   img.forEach((img) => {
+  //     form.append('file', img)
+  //   })
+  //   form.append('caption', text)
+  //   form.append('privacy', privacy)
+  //   form.append('profile',false)
+
+  // createPost(form).then(data => {
+  //   setImages([])
+  //   setText('')
+  //   setSpinner(false)
+  //   dispatch(refreshReducer())
+  //   dispatch(openReducer(false))
+  // })
+  // }
 
 
   return (
@@ -123,7 +150,7 @@ export default function NestedModal() {
 
               <div className='m-3'>
                 <h3 className='m-1 text-lg '>Name</h3>
-                <select className='bottom-2 rounded-sm border-gray-400 ' onChange={(e)=>setPrivacy(e.target.value)}>
+                <select className='bottom-2 rounded-sm border-gray-400 ' onChange={(e) => setPrivacy(e.target.value)}>
                   <option value={'followers'}>Followers</option>
                   <option value={'public'}>Public</option>
                 </select>
@@ -132,12 +159,13 @@ export default function NestedModal() {
             </div>
             <div className='flex flex-col  justify-between  h-[220px]'>
 
-              <textarea placeholder='Whats on your Mind?' className='border-0 w-full mr-5 p-4 scrollbar-hide focus-visible:outline-none' ref={postCaption} value={text} onChange={(e) => setText(e.target.value)} >
+              <textarea placeholder='Whats on your Mind?' className='border-0 w-full mr-5 p-4 scrollbar-hide focus-visible:outline-none'
+                ref={postCaption} value={text} onChange={(e) => setText(e.target.value)} >
               </textarea>
               <div className='flex justify-around h-12 overflow-y-auto scrollbar-hide'>
-                {images && images.map((img, i) => (
+                {/* {images && images.map((img, i) => (
                   <img className='max-h-[100%] active:scale-100 active:fixed active:z-50 active:-translate-y-20' src={img} key={i} alt="" />
-                ))}
+                ))} */}
               </div>
               <div className='mb-2'>
                 <div className='w-full my-3 h-[30px] rounded-md shadow-md ring-2 ring-slate-200 flex items-center justify-between px-4'>
@@ -150,7 +178,7 @@ export default function NestedModal() {
 
                 </div>
 
-                {validate ? <Button variant='contained' sx={{ width: '100%' }} onClick={submitPost}>{!spinner?'POST':<Bars
+                {validate ? <Button variant='contained' sx={{ width: '100%' }} onClick={submitPost}>{!spinner ? 'POST' : <Bars
                   height="30"
                   width="50"
                   color="#4fa94d"

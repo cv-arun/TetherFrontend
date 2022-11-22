@@ -24,7 +24,6 @@ function ChatBox() {
             setChatList(data.messages)
             data.users?.filter((curr) => {
                 curr.roomId = data._id
-                console.log(curr, 'currrrrrrrrrrrrrrrr')
                 curr._id !== user.userId && setFriendDetails(curr)
                 return null
             })
@@ -64,10 +63,10 @@ function ChatBox() {
                 {friendDetails?._id ? <><div className='w-full h-[80px] flex shadow-2xl'>
                     <div className='flex flex-col justify-center ' onClick={() => dispatch(openChatBoxReducer(false))}><ArrowBackIcon /></div>
                     <div className='md:ml-5 ml-2 my-auto'>
-                        <img className=' max-h-[75px] rounded-full' src={friendDetails.picture} alt='profile' />
+                        <img className=' max-h-[75px] rounded-full' src={friendDetails?.picture} alt='profile' />
                     </div>
                     <div className='w-full mx-4 flex flex-col'>
-                        <span className='text-2xl mt-4'>{friendDetails.first_name}</span>
+                        <span className='text-2xl mt-4'>{friendDetails?.first_name}</span>
                         <span className='text-lg'>{friendDetails?.isOnline ? 'Online'
                             : <span className='text-sm'>
                                 Active <Moment className=' mx-2 w-[80px]' element="span" fromNow ago>{friendDetails?.lastActive}</Moment>ago
@@ -84,8 +83,8 @@ function ChatBox() {
                         <EmojiPicker onEmojiClick={imojiClicked} />
                     </div>}
                     <div className='w-full flex-grow shadow-inner bg-white flex flex-col-reverse overflow-y-auto scrollbar-hide'>
-                        {chatList?.map((curr) => <div className={`p-3 flex ${user.userId === curr.author ? 'justify-end' : 'justify-start'}`}>
-                            <div className={` w-min min-w-[200px] min-h-[50px] flex flex-col bg-gray-200 rounded-b-xl  ${user.userId === curr.author ? 'rounded-tl-xl' : 'rounded-tr-xl'}`}>
+                        {chatList?.map((curr) => <div className={`p-3 flex ${user?.userId === curr.author ? 'justify-end' : 'justify-start'}`}>
+                            <div className={` w-min min-w-[200px] min-h-[50px] flex flex-col bg-gray-200 rounded-b-xl  ${user?.userId === curr.author ? 'rounded-tl-xl' : 'rounded-tr-xl'}`}>
                                 <span className='text-xl'>{curr.text}</span>
                                 <span className='h-2 text-right text-sm mb-2 mr-2'><Moment date={curr.time} format="hh:mm a" trim /></span>
                             </div>
