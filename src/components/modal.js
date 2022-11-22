@@ -82,7 +82,7 @@ export default function NestedModal() {
     let url = []
     images.map(async (img) => {
       let data = await uploadImage(img)
-      url.push(data)
+      url.push({url:data})
     })
     let form = new FormData();
     form.append('url', url)
