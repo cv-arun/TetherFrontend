@@ -5,6 +5,7 @@ import userSlice from './userSlice';
 import refreshSLice from './refreshSLice';
 import getChatSlice from './getChatSlice';
 import socketSlice from './socketSlice';
+import progressSlice from './progressSlice';
 
 export default configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export default configureStore({
     userReducer:userSlice,
     refresh:refreshSLice,
     getChat:getChatSlice,
-    socket:socketSlice
+    socket:socketSlice,
+    progress:progressSlice
   }
 })

@@ -9,11 +9,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { openReducer } from '../redux/feedSlice';
 import EmojiPicker from 'emoji-picker-react';
 import createPost from '../api.js/postImage';
-import dataURItoBlob from '../helper.js/blob';
+import LinearProgress from '@mui/material/LinearProgress';
 import { Bars } from 'react-loader-spinner';
 import { refreshReducer } from '../redux/refreshSLice';
 import uploadImage from '../api.js/uploadToCloudinary';
-
 
 
 
@@ -38,10 +37,14 @@ const style = {
 export default function NestedModal() {
   const [show, setShow] = React.useState(false);
   const [text, setText] = React.useState('');
-  const [images, setImages] = React.useState([]);
+  const [urls, setUrls] = React.useState([]);
   const [validate, setValidate] = React.useState(false)
   const [spinner, setSpinner] = React.useState(false)
   const [privacy, setPrivacy] = React.useState('followers')
+  const [progress, setProgress] = React.useState(0)
+  const [showProgress, setShowProgress] = React.useState(false)
+  const [succesMessage, setSuccesMessage] = React.useState('')
+  const [images, setImages] = React.useState([])
   const postCaption = React.useRef();
   const open = useSelector(state => state.openModal.openModal);
   const dispatch = useDispatch()
@@ -50,8 +53,8 @@ export default function NestedModal() {
   };
 
   React.useEffect(() => {
-    images.length > 0 || text !== '' ? setValidate(true) : setValidate(false)
-  }, [text, images])
+    urls.length !== 0 || text !== '' ? setValidate(true) : setValidate(false)
+  }, [text, urls])
 
 
   const imojiClicked = ({ emoji }) => {
@@ -63,41 +66,55 @@ export default function NestedModal() {
 
   }
 
-  function fileUploaded(e) {
-    const files = Object.values(e.target.files)
-    setImages(files)
-    // files.forEach((img) => {
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(img);
-    //   reader.onload = (readerEvent) => {
-    //     setImages((images) => [...images, readerEvent.target.result]);
-    //   };
-    // });
-
+  const uploaded = () => {
+    setValidate(true)
+    setShowProgress(false)
   }
 
-  const submitPost = () => {
-    setSpinner(true)
-    console.log(images)
-    let url = []
-    images.map(async (img) => {
-      let data = await uploadImage(img)
-      url.push({url:data})
-    })
-    let form = new FormData();
-    form.append('url', url)
-    form.append('caption', text)
-    form.append('privacy', privacy)
-    form.append('profile', false)
+  function fileUploaded(e) {
+    const files = Object.values(e.target.files)
+    //config for progress
+    let config = {
+      onUploadProgress: function (progressEvent) {
+        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setProgress(percentCompleted)
+        percentCompleted === 100 && setTimeout(() => uploaded(), 50)
+      }
+    }
+    //upload image to coloudinary
+    uploadImage(files, config).then((data) => {
+      setUrls(data)
+      setShowProgress(true)
+      console.log(data)
 
+    })
+
+    //for preview
+    files.forEach((img) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (readerEvent) => {
+        setImages((images) => [...images, readerEvent.target.result]);
+      };
+    });
+
+  }
+//submit post to server
+  const submitPost = async () => {
+    setSpinner(true)
+    let form = {}
+    form.url = urls
+    form.caption = text
+    form.privacy = privacy
+    form.profle = false
     createPost(form).then(data => {
-      setImages([])
+      setUrls([])
       setText('')
       setSpinner(false)
       dispatch(refreshReducer())
       dispatch(openReducer(false))
+      setSuccesMessage('')
     })
-
   }
 
 
@@ -163,9 +180,9 @@ export default function NestedModal() {
                 ref={postCaption} value={text} onChange={(e) => setText(e.target.value)} >
               </textarea>
               <div className='flex justify-around h-12 overflow-y-auto scrollbar-hide'>
-                {/* {images && images.map((img, i) => (
+                {images?.map((img, i) => (
                   <img className='max-h-[100%] active:scale-100 active:fixed active:z-50 active:-translate-y-20' src={img} key={i} alt="" />
-                ))} */}
+                ))}
               </div>
               <div className='mb-2'>
                 <div className='w-full my-3 h-[30px] rounded-md shadow-md ring-2 ring-slate-200 flex items-center justify-between px-4'>
@@ -178,6 +195,7 @@ export default function NestedModal() {
 
                 </div>
 
+                {showProgress && <LinearProgress variant="determinate" value={progress} sx={{ marginBottom: '5px' }} />}
                 {validate ? <Button variant='contained' sx={{ width: '100%' }} onClick={submitPost}>{!spinner ? 'POST' : <Bars
                   height="30"
                   width="50"

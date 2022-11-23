@@ -10,70 +10,78 @@ import { closeReducer } from '../redux/modal2';
 import updateProfile from '../api.js/udateProfile';
 import refreshUSer from '../api.js/refreshUser';
 import { userReducer } from '../redux/userSlice.js';
+import uploadImage from '../api.js/uploadToCloudinary';
+import LinearProgress from '@mui/material/LinearProgress';
+
 
 
 function ProfilePic({ post }) {
   console.log(post)
   const dispatch = useDispatch()
-  const [images, setImages] = useState([])
   const [spinner, setSpinner] = useState(false)
   const [chossenImg, setChossenImg] = useState('')
   const [enable, setEnable] = useState(false)
+  const [progress, setProgress] = React.useState(0)
+  const [showProgress, setShowProgress] = React.useState(false)
+  const [preview, setPreview] = React.useState([])
+  const [uploadImg, setUploadedImg] = React.useState([])
 
-  function fileUploaded(e) {
 
-    const files = Array.from(e.target.files);
+
+
+
+  function fileUpload(e) {
+    const files = Object.values(e.target.files)
+    //config for progress
+    let config = {
+      onUploadProgress: function (progressEvent) {
+        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setProgress(percentCompleted)
+        percentCompleted === 100 && setTimeout(() => setEnable(true), 50)
+      }
+    }
+    //upload image to coloudinary
+    uploadImage(files, config).then((data) => {
+      setUploadedImg(data)
+      console.log(data, 'url profile')
+      setShowProgress(true)
+    })
+
+    //for preview
     files.forEach((img) => {
       const reader = new FileReader();
       reader.readAsDataURL(img);
       reader.onload = (readerEvent) => {
-        setImages((images) => [...images, readerEvent.target.result]);
+        setPreview((images) => [...images, readerEvent.target.result]);
       };
     });
-    setEnable(true)
-  }
-  const submit = () => {
-    images.length === 0 ? submitChoosenImg() : submitPost()
+
   }
 
-  const submitPost = () => {
+  const submit = () => {
+
 
     setSpinner(true)
-    let img = images.map(img => {
-      return dataURItoBlob(img)
-    })
-    console.log(img, 'img')
-    let form = new FormData();
-    img.forEach((img) => {
-      form.append('file', img)
-    })
-    form.append('profile', true)
+    let img = uploadImg[0]?.url || chossenImg
 
-    createPost(form).then(data => {
-      setImages([])
+    updateProfile(img).then(data => {
+      dispatch(refreshReducer())
+
+      refreshUSer().then(data => dispatch(userReducer()))
+        .catch(err => console.log(err))
+
       setSpinner(false)
-      dispatch(refreshReducer())
       dispatch(closeReducer())
-      refreshUSer().then(data => dispatch(userReducer()))
-        .catch(err => console.log(err))
-    })
-  }
-
-  const submitChoosenImg = () => {
-
-    updateProfile(chossenImg).then(data => {
-      dispatch(refreshReducer())
-      refreshUSer().then(data => dispatch(userReducer()))
-        .catch(err => console.log(err))
-        dispatch(closeReducer())
-    })
+      setPreview([])
+      setEnable(false)
+    }).catch(err=>console.log(err))
 
   }
 
   return (
     <>
       <div className='flex justify-center'>
-        <Button><input id='choose-file' accept='image/jpeg,image/png,image/webp,image/gif' style={{ display: 'none' }} type={'file'} multiple onChange={fileUploaded} />
+        <Button><input id='choose-file' accept='image/jpeg,image/png,image/webp,image/gif' style={{ display: 'none' }} type={'file'} multiple onChange={fileUpload} />
           <label htmlFor="choose-file">Upload photo<AddPhotoAlternateIcon /></label></Button>
       </div>
       <hr />
@@ -93,6 +101,7 @@ function ProfilePic({ post }) {
         }
 
       </div>
+      {showProgress && <LinearProgress variant="determinate" value={progress} sx={{ marginBottom: '5px' }} />}
       <div>
         {enable ? <Button variant='contained' sx={{ width: '100%' }} onClick={submit}>{!spinner ? 'POST' : <Bars
           height="30"
