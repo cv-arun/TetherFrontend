@@ -110,6 +110,7 @@ export default function NestedModal() {
     createPost(form).then(data => {
       setUrls([])
       setText('')
+      setImages([])
       setSpinner(false)
       dispatch(refreshReducer())
       dispatch(openReducer(false))

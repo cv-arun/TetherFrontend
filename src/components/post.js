@@ -78,7 +78,6 @@ function Post({ curr }) {
                                     <button className='hover:bg-slate-400 border-y-2 '>Delete</button>
                                     <button className='hover:bg-slate-400 border-y-2 '>Edit</button>
                                     <button className='hover:bg-slate-400 border-y-2'>Hide post</button></>}
-
                             </div>}
 
                         <span onClick={() => setShowMenu(!showMenu)} className='rounded-full hover:bg-slate-200' ><MoreHorizIcon /></span>

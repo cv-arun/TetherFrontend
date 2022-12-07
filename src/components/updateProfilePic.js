@@ -86,7 +86,7 @@ function ProfilePic({ post }) {
       </div>
       <hr />
       <h1>Suggested Photos</h1>
-      <div className='overflow-y-auto grid grid-cols-3 gap-1 h-56'>
+      {preview.length===0 ?<div className='overflow-y-auto grid grid-cols-3 gap-1 h-56'>
         {
           post?.map((curr) => {
             if (curr.images.length !== 0) {
@@ -100,7 +100,7 @@ function ProfilePic({ post }) {
           })
         }
 
-      </div>
+      </div>:<img className='max-h-56 mx-auto' src={preview} alt='preview'/>}
       {showProgress && <LinearProgress variant="determinate" value={progress} sx={{ marginBottom: '5px' }} />}
       <div>
         {enable ? <Button variant='contained' sx={{ width: '100%' }} onClick={submit}>{!spinner ? 'POST' : <Bars
