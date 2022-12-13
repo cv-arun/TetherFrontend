@@ -46,6 +46,7 @@ export default function NestedModal() {
   const [succesMessage, setSuccesMessage] = React.useState('')
   const [images, setImages] = React.useState([])
   const postCaption = React.useRef();
+  const user = useSelector((state) => state.userReducer.user)
   const open = useSelector(state => state.openModal.openModal);
   const dispatch = useDispatch()
   const handleClose = () => {
@@ -164,10 +165,10 @@ export default function NestedModal() {
             <hr />
             <div className='flex mt-2' onSelect={(e) => e.target.selectionStart}>
 
-              <img className=' max-h-12 my-auto' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkSQpuRwKcQD_-_2yf6EGsw56SsFVa4jdKaQ&usqp=CAU' alt='profile' />
+              <img className=' max-h-12 my-auto' src={user?.picture} alt='profile' />
 
               <div className='m-3'>
-                <h3 className='m-1 text-lg '>Name</h3>
+                <h3 className='m-1 text-lg '>{user?.name}</h3>
                 <select className='bottom-2 rounded-sm border-gray-400 ' onChange={(e) => setPrivacy(e.target.value)}>
                   <option value={'followers'}>Followers</option>
                   <option value={'public'}>Public</option>

@@ -14,6 +14,7 @@ function Profile() {
     const dispatch = useDispatch()
     const refresh = useSelector(state => state.refresh.refresh)
     const user = useSelector((state) => state.userReducer.user)
+    console.log(user,"test")
 
     const [post, setPost] = useState([]);
     const [mobile, setMobile] = useState()
@@ -42,9 +43,9 @@ function Profile() {
                             </div>
                             <div>
                                 <button onClick={() => dispatch(openReducer({ open: true, component: <Follow Following={true} /> }))}
-                                    className='m-2 ml-0 p-1 bg-slate-100 rounded-md'>{user?.following} Following</button>
+                                    className='m-2 ml-0 p-1 bg-slate-100 rounded-md'>{user?.followingCount} Following</button>
                                 <button onClick={() => dispatch(openReducer({ open: true, component: <Follow Followers={true} /> }))}
-                                    className='m-2 p-1 bg-slate-100 rounded-md'>{user?.followers}Followers</button>
+                                    className='m-2 p-1 bg-slate-100 rounded-md'>{user?.followersCount} Followers</button>
 
                             </div>
                             {!mobile && <div >

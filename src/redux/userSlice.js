@@ -10,6 +10,8 @@ export const userSlice = createSlice({
             lastName:'',
             DOB:'',
             bio:'',
+            followersCount:'',
+            followingCount:'',
         }
     },
     reducers: {
@@ -22,7 +24,9 @@ export const userSlice = createSlice({
                 DOB:data?.DOB,
                 bio:data?.bio,
                 picture:data?.picture,
-                userId:data?.userId
+                userId:data?.userId,
+                followersCount:data?.followers,
+                followingCount:data?.following,
             }
         }
 
