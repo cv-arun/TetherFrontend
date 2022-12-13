@@ -58,7 +58,7 @@ function Post({ curr }) {
             <div key={curr._id} className='max-w-[690px] shadow my-1 bg-white rounded-lg flex flex-col'>
                 <div className='flex mt-2 px-3'>
 
-                    <img className=' max-h-12 my-auto rounded-full' src={curr.user.picture} alt='failed to load profile' />
+                    <img className=' max-h-12 my-auto rounded-full' src={curr.user.picture} loading="lazy" alt='failed to load profile' />
 
                     <div className='m-3 '>
                         <h3 className='m-1 text-lg '>{curr.user.first_name}</h3>
@@ -89,7 +89,7 @@ function Post({ curr }) {
                     <p>{curr.text}</p>
                 </div>
                 {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide'>
-                    {curr.images.map((img, i) => (<><img className='min-w-full max-h-[500px]' src={img.url} alt='post' /></>))}
+                    {curr.images.map((img, i) => (<><img className='min-w-full max-h-[500px]' src={img.url} alt='failed to load' loading="lazy" /></>))}
                 </div>}
                 {curr.images.length > 1 ? <span className='flex justify-center'>{curr.images.map(()=><FiberManualRecordOutlinedIcon/>)}</span>: ''}
                 <div >
