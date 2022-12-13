@@ -6,7 +6,6 @@ const [follow,setFollow]=useState([])
 
   useEffect(() => {
     getFollow().then(data => {
-      console.log(data)
       Following?setFollow(data.following):setFollow(data.followers)
     })
   }, [])

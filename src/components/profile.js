@@ -42,9 +42,9 @@ function Profile() {
                             </div>
                             <div>
                                 <button onClick={() => dispatch(openReducer({ open: true, component: <Follow Following={true} /> }))}
-                                    className='m-2 ml-0 p-1 bg-slate-100 rounded-md'>Following</button>
+                                    className='m-2 ml-0 p-1 bg-slate-100 rounded-md'>{user?.following} Following</button>
                                 <button onClick={() => dispatch(openReducer({ open: true, component: <Follow Followers={true} /> }))}
-                                    className='m-2 p-1 bg-slate-100 rounded-md'>Followers</button>
+                                    className='m-2 p-1 bg-slate-100 rounded-md'>{user?.followers}Followers</button>
 
                             </div>
                             {!mobile && <div >
