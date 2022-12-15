@@ -88,10 +88,10 @@ function Post({ curr }) {
                 <div className='m-5 max-h-[500px] overflow-y-auto scrollbar-hide '>
                     <p>{curr.text}</p>
                 </div>
-                {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide'>
-                    {curr.images.map((img, i) => (<><img className='min-w-full max-h-[500px]' src={img.url} alt='failed to load' loading="lazy" /></>))}
+                {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide snap-x snap-mandatory'>
+                    {curr.images.map((img, i) => (<img className='min-w-full max-h-[500px] ' src={img.url} alt='failed to load' loading="lazy" />))}
                 </div>}
-                {curr.images.length > 1 ? <span className='flex justify-center'>{curr.images.map(()=><FiberManualRecordOutlinedIcon/>)}</span>: ''}
+                {curr.images.length > 1 ? <span className='flex justify-center snap-always snap-center'>{curr.images.map(()=><FiberManualRecordOutlinedIcon/>)}</span>: ''}
                 <div >
                     <div className='my-3 mx-5 flex flex-row justify-between z-0'>
                         <p >{curr.Likes?.length} Likes</p>
