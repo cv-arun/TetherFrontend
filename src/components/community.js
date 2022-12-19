@@ -94,7 +94,7 @@ function Community() {
                 {tabs === 1 && <div className='flex flex-wrap gap-2 '>
                     {followers?.map((curr, index) => {
                         return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px] mx-auto flex flex-col gap-3 h-fit p-2 rounded-xl'>
-                            <img src={curr.picture} alt='profile' className='rounded-xl' />
+                            <img src={curr.picture} alt='profile' className='rounded-xl' onClick={()=>navigate(`/profiles/${curr._id}`)}/>
                             <p className='px-1'>{curr.first_name}</p>
                             <div className='px-1'><Button className='w-full' variant="contained"
                                 onClick={()=>confirm(curr._id)}>Remove</Button></div>
@@ -108,7 +108,7 @@ function Community() {
                 {tabs === 2 && <div className='flex flex-wrap gap-2 ' onClick={handleClick2}>
                     {following?.map((curr, index) => {
                         return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px] mx-auto flex flex-col gap-3 h-fit p-2 rounded-xl'>
-                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner' />
+                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner' onClick={()=>navigate(`/profiles/${curr._id}`)}/>
                             <p className='px-1'>{`${curr.first_name} ${curr.last_name}`}</p>
                             <div className='px-1'><Button id={`${curr._id}`} className='w-full' variant="contained">Following</Button></div>
                         </div>

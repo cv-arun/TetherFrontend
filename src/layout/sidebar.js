@@ -28,6 +28,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { userReducer } from '../redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import isLoggedIn from '../api.js/isLoggedIn';
+import searchUser from '../api.js/searchUser';
+
+
 
 
 const drawerWidth = 240;
@@ -105,6 +108,12 @@ export default function Sidebar(props) {
 
     const user = useSelector((state) => state.userReducer.user)
     const socket = useSelector(state => state.socket.socket);
+    const [search, setSearch] = React.useState('');
+    const [searchResults, setSearchResults] = React.useState([]);
+
+    React.useEffect(() => {
+        search && searchUser(search).then(data=>{setSearchResults(data);console.log(data,"search results")})
+    }, [search])
 
     React.useEffect(() => {
         socket.emit('online', { userId: user.userId })
@@ -128,7 +137,7 @@ export default function Sidebar(props) {
     React.useEffect(() => {
         dispatch(userReducer())
     }, [])
-    
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -181,6 +190,7 @@ export default function Sidebar(props) {
     return (
         <Box sx={{ display: 'flex', backgroundColor: '#f0f2f5', minHeight: '100vh', minWidth: '100vw' }}>
             <CssBaseline />
+
             <AppBar position="fixed" open={open} sx={{ backgroundColor: 'white', color: 'black', boxShadow: 'none' }} >
                 <Toolbar>
                     {!isMob && <IconButton
@@ -195,11 +205,24 @@ export default function Sidebar(props) {
                     >
                         <MenuIcon />
                     </IconButton>}
-                    <Typography variant="h6" noWrap component="div">
-                        {open ? '' : 'Tether'}
-                    </Typography>
+                    <div className='flex flex-row-reverse justify-between w-full'>
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className={`bg-gray-200 p-2 ${isMob ? 'w-1/2' : 'w-1/3 '} rounded-full focus-visible:outline-none`}
+                            placeholder='Search...' />
+                        {search && <div className={`${isMob ? 'w-1/2' : 'w-1/3 '} absolute h-56 mt-12  bg-white shadow flex flex-col gap-1 px-5 overflow-y-scroll scrollbar-hide`}>
+                            {searchResults?.map(curr => <div className='p-2' 
+                            onClick={()=>navigate(`/profiles/${curr._id}`)}>{curr.first_name}</div>)}
+                        </div>}
+
+                        <Typography variant="h6" noWrap component="div">
+                            {open ? '' : 'Tether'}
+                        </Typography>
+                    </div>
                 </Toolbar>
             </AppBar>
+
             {!isMob && <Drawer variant="permanent" open={open} >
                 <DrawerHeader sx={{ justifyContent: 'space-between' }}>
                     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: '1', textAlign: 'center' }}>
