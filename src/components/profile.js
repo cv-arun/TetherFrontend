@@ -14,7 +14,7 @@ function Profile() {
     const dispatch = useDispatch()
     const refresh = useSelector(state => state.refresh.refresh)
     const user = useSelector((state) => state.userReducer.user)
-    console.log(user,"test")
+  
 
     const [post, setPost] = useState([]);
     const [mobile, setMobile] = useState()

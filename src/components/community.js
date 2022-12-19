@@ -7,6 +7,7 @@ import requestUnFollow from '../api.js/requestUnFollow';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import removeFollow from '../api.js/removeFollower';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -16,6 +17,7 @@ function Community() {
     const [people, setPeople] = useState([])
     const [followers, setfollowers] = useState([])
     const [following, setfollowing] = useState([])
+    const navigate=useNavigate()
 
     useEffect(() => {
         tabs === 3 && getPeople().then(data => {
@@ -116,7 +118,7 @@ function Community() {
                 {tabs === 3 && <div className='flex flex-wrap gap-4' onClick={handleClick}>
                     {people?.map((curr, index) => {
                         return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px]  mx-auto flex flex-col gap-2 h-fit p-2 rounded-xl'>
-                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner' />
+                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner' onClick={()=>navigate(`/profiles/${curr._id}`)}/>
                             <p className='px-1'>{curr.first_name + ' ' + curr.last_name}</p>
                             <div className='px-1'><Button id={`${curr._id}`} className='w-full' variant="contained">Follow</Button></div>
                         </div>

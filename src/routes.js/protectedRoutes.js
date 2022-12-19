@@ -6,6 +6,7 @@ import Feed from '../pages/feedPage';
 import Mycommunity from '../pages/myCommunity';
 import Notification from '../pages/notification';
 import Profile from '../pages/profile';
+import FriendProfile from '../pages/friendProfile';
 import Settings from '../pages/settings';
 import Chat from '../pages/chat';
 
@@ -32,6 +33,7 @@ function ProtectedRoutes() {
                 <Route exact path="/community" element={<Mycommunity />} />
                 <Route exact path="/notification" element={<Notification />} />
                 <Route exact path="/profile" element={<Profile />} />
+                <Route exact path="/profiles/:id" element={<FriendProfile />} />
                 <Route exact path="/settings" element={<Settings />} />
             </Routes>
         </>
