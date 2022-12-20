@@ -212,8 +212,8 @@ export default function Sidebar(props) {
                             className={`bg-gray-200 p-2 ${isMob ? 'w-1/2' : 'w-1/3 '} rounded-full focus-visible:outline-none`}
                             placeholder='Search...' />
                         {search && <div className={`${isMob ? 'w-1/2' : 'w-1/3 '} absolute h-56 mt-12  bg-white shadow flex flex-col gap-1 px-5 overflow-y-scroll scrollbar-hide`}>
-                            {searchResults?.map(curr => <div className='p-2' 
-                            onClick={()=>navigate(`/profiles/${curr._id}`)}>{curr.first_name}</div>)}
+                            {searchResults?.map(curr => <div className='p-2 flex' 
+                            onClick={()=>{navigate(`/profiles/${curr._id}`);setSearch('')}}><img className='w-[30px] h-[30px] rounded-full' src={curr.picture} alt='failed to load'/><p className='ml-4'>{curr.first_name}</p></div>)}
                         </div>}
 
                         <Typography variant="h6" noWrap component="div">

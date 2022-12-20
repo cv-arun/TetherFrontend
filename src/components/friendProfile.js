@@ -19,7 +19,7 @@ function FriendProfile() {
             
             setPost(data)
         })
-    }, [])
+    }, [id])
     return (
         <>
             <div className='border-x-2 bg-white  max-w-[690px] h-[100%] mx-auto shadow-md flex flex-col rounded-md p-3'>

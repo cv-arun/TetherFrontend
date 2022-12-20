@@ -35,6 +35,7 @@ function ProtectedRoutes() {
                 <Route exact path="/profile" element={<Profile />} />
                 <Route exact path="/profiles/:id" element={<FriendProfile />} />
                 <Route exact path="/settings" element={<Settings />} />
+               
             </Routes>
         </>
     )
