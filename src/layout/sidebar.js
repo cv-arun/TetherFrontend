@@ -122,11 +122,13 @@ export default function Sidebar(props) {
 
 
     React.useEffect(() => {
-        console.log('switch tab')
+       
+        
         let token = JSON.parse(localStorage.getItem('userKey'));
         !token ? navigate('/login') : isLoggedIn().then(data => {
             !data.loggedIn && navigate('/login')
         }).catch(err => navigate('/login'))
+
     }, [])
 
     const isMob = useMediaQuery({

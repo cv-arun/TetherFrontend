@@ -26,6 +26,7 @@ function ProtectedRoutes() {
 
     return (
         <>
+        
             <Routes>
                 <Route exact path="/home" element={<Home />} />
                 <Route exact path="/" element={<Feed />} />
