@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 
 function ProtectedRoutes() {
     const dispatch = useDispatch();
-    const socket = io.connect("https://b4books.store/socket");
+    const socket = io.connect("https://b4books.store/socket/");
     
     dispatch(socketReducer(socket))
 
