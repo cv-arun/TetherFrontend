@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 
 function ProtectedRoutes() {
     const dispatch = useDispatch();
-    const socket = io.connect("https://tethersocket.osc-fr1.scalingo.io/");
+    const socket = io.connect("https://b4books.store/socket");
     
     dispatch(socketReducer(socket))
 
