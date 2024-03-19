@@ -122,8 +122,8 @@ export default function Sidebar(props) {
 
     const logout = () => {
         localStorage.clear()
-        navigate('/login')
         socket.emit('offline', { userId: user.userId })
+        navigate('/login')
     }
 
 

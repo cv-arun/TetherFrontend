@@ -88,8 +88,8 @@ function Post({ curr }) {
                 <div className='m-5 max-h-[500px] overflow-y-auto scrollbar-hide '>
                     <p>{curr.text}</p>
                 </div>
-                {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide snap-x snap-mandatory'>
-                    {curr.images.map((img, i) => (<img className='min-w-full max-h-[500px] ' src={img.url} alt='failed to load' loading="lazy" />))}
+                {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide snap-mandatory snap-x '>
+                    {curr.images.map((img, i) => (<div className=' min-w-full snap-center'><img className='min-w-full max-h-[500px]' src={img.url} alt='failed to load' loading="lazy" /></div>))}
                 </div>}
                 {curr.images.length > 1 ? <span className='flex justify-center snap-always snap-center'>{curr.images.map(()=><FiberManualRecordOutlinedIcon/>)}</span>: ''}
                 <div >
