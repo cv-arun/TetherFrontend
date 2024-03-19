@@ -161,7 +161,7 @@ export default function NestedModal() {
           </div>}
           <div className='h-80 bg-white '>
             <div className='flex '><h2 className='text-2xl text-right w-4/6'>Create Post</h2>
-              <span className='w-2/6 flex flex-row-reverse'><CloseIcon onClick={handleClose} /></span></div>
+              <span className='w-2/6 flex flex-row-reverse '><CloseIcon className='cursor-pointer' onClick={handleClose} /></span></div>
             <hr />
             <div className='flex mt-2' onSelect={(e) => e.target.selectionStart}>
 
@@ -169,7 +169,7 @@ export default function NestedModal() {
 
               <div className='m-3'>
                 <h3 className='m-1 text-lg '>{user?.name}</h3>
-                <select className='bottom-2 rounded-sm border-gray-400 ' onChange={(e) => setPrivacy(e.target.value)}>
+                <select className='bottom-2 rounded-sm border-gray-400 cursor-pointer ' onChange={(e) => setPrivacy(e.target.value)}>
                   <option value={'followers'}>Followers</option>
                   <option value={'public'}>Public</option>
                 </select>
@@ -190,7 +190,7 @@ export default function NestedModal() {
                 <div className='w-full my-3 h-[30px] rounded-md shadow-md ring-2 ring-slate-200 flex items-center justify-between px-4'>
                   <p>Add to your Post</p>
 
-                  <Button><input id='choose-file' accept='image/jpeg,image/png,image/webp,image/gif' multiple style={{ display: 'none' }} type={'file'} onChange={fileUploaded} />
+                  <Button><input id='choose-file' className='cursor-pointer' accept='image/jpeg,image/png,image/webp,image/gif' multiple style={{ display: 'none' }} type={'file'} onChange={fileUploaded} />
                     <label htmlFor="choose-file"><AddPhotoAlternateIcon /></label></Button>
                   <Button onClick={() => setShow(!show)}> <AddReactionIcon /></Button>
 

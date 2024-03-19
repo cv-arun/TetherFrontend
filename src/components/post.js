@@ -58,12 +58,16 @@ function Post({ curr }) {
             <div key={curr._id} className='max-w-[690px] shadow my-1 bg-white rounded-lg flex flex-col'>
                 <div className='flex mt-2 px-3'>
 
-                    <img className=' max-h-12 my-auto rounded-full' src={curr.user.picture} loading="lazy" alt='failed to load profile' />
+                    <img className='h-[80px] w-[80px] min-w-[80px] min-h-80 object-cover rounded-full' src={curr.user.picture} loading="lazy" alt='failed to load profile' />
 
                     <div className='m-3 '>
                         <h3 className='m-1 text-lg '>{curr.user.first_name}</h3>
-                        <div className='flex'>{curr.privacy === 'public' ? <PublicIcon /> : <PeopleIcon />}
-                         <Moment className=' mx-2 w-[80px]' element="span" fromNow ago>{curr.createdAt}</Moment> ago </div>
+                        <div className='flex'>
+                            <div className='mx-2'>{curr.privacy === 'public' ? <PublicIcon /> : <PeopleIcon />}</div>
+                            <div className=' flex '>
+                                <Moment className=' w-[80px] flex justify-end mr-1' element="span" fromNow ago>{curr.createdAt}</Moment> ago
+                            </div>
+                        </div>
                     </div>
                     <div className='self-center w-full flex flex-row-reverse'>
 
@@ -80,7 +84,7 @@ function Post({ curr }) {
                                     <button className='hover:bg-slate-400 border-y-2'>Hide post</button></>}
                             </div>}
 
-                        <span onClick={() => setShowMenu(!showMenu)} className='rounded-full hover:bg-slate-200' ><MoreHorizIcon /></span>
+                        <span onClick={() => setShowMenu(!showMenu)} className='rounded-full cursor-pointer hover:bg-slate-200' ><MoreHorizIcon /></span>
                     </div>
 
 
@@ -89,9 +93,9 @@ function Post({ curr }) {
                     <p>{curr.text}</p>
                 </div>
                 {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide snap-mandatory snap-x '>
-                    {curr.images.map((img, i) => (<div className=' min-w-full snap-center'><img className='min-w-full max-h-[500px]' src={img.url} alt='failed to load' loading="lazy" /></div>))}
+                    {curr.images.map((img, i) => (<div className=' min-w-full snap-center'><img className='max-h-[500px] object-contain w-full' src={img.url} alt='failed to load' loading="lazy" /></div>))}
                 </div>}
-                {curr.images.length > 1 ? <span className='flex justify-center snap-always snap-center'>{curr.images.map(()=><FiberManualRecordOutlinedIcon/>)}</span>: ''}
+                {curr.images.length > 1 ? <span className='flex justify-center snap-always snap-center'>{curr.images.map(() => <FiberManualRecordOutlinedIcon />)}</span> : ''}
                 <div >
                     <div className='my-3 mx-5 flex flex-row justify-between z-0'>
                         <p >{curr.Likes?.length} Likes</p>
@@ -140,7 +144,7 @@ function Post({ curr }) {
                                         <span>
                                             <Moment className=' mx-2 w-[80px]' element="span" fromNow ago>{i.commentAt}</Moment>ago
                                         </span>
-                                        {user.userId === (i.commentBy?._id||curr.user._id ) && <span onClick={() => deleteComment(i._id)}>delete</span>}
+                                        {user.userId === (i.commentBy?._id || curr.user._id) && <span onClick={() => deleteComment(i._id)}>delete</span>}
                                     </span>
                                 </div>
                             </div>)}

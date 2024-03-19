@@ -17,13 +17,13 @@ function CreatePost() {
 
         <>
             <div className='max-w-[690px] h-32 shadow my-5 bg-white rounded-lg' onClick={() => dispatch(openReducer(true))}>
-                <div className='flex mt-2'><div className='md:w-1/6 w-2/6'><img className='ml-5 max-h-12 rounded-full' src={user.picture} alt='profile' /></div>
+                <div className='flex mt-2'><div className='md:w-1/6 w-2/6 cursor-pointer'><img className='ml-5 w-16 h-16 rounded-full' src={user.picture} alt='profile' /></div>
                     <input placeholder='Whats on your Mind?' className='rounded-full bg-gray-300 md:w-5/6 w-4/6 mr-5 p-4' />
                 </div>
                 <hr className='m-3' />
                 <div className='flex justify-around'>
-                    <p><AddPhotoAlternateIcon />Photo/video</p>
-                    <p><AddReactionIcon />Feeling/activity</p>
+                    <p className='cursor-pointer'><AddPhotoAlternateIcon />Photo/video</p>
+                    <p className='cursor-pointer'><AddReactionIcon />Feeling/activity</p>
                 </div>
             </div>
             <Modal />
