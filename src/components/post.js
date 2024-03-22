@@ -72,16 +72,20 @@ function Post({ curr }) {
                     <div className='self-center w-full flex flex-row-reverse'>
 
                         {showMenu &&
-                            <div className='w-[150px] h-[150px] absolute z-50 bg-white shadow-2xl rounded p-3 mr-8 flex flex-col gap-4'>
+                            <div className='w-[150px] h-fit absolute z-50 bg-white shadow-2xl rounded p-4 mr-8 flex flex-col gap-4'>
 
                                 {user.userId !== curr.user._id ? <>
-                                    <button className='hover:bg-slate-400 border-y-2 '>unfollow</button>
-                                    <button className='hover:bg-slate-400 border-y-2 '>Save post</button>
-                                    <button className='hover:bg-slate-400 border-y-2 '>Report post</button>
+                                    <button className='hover:bg-slate-400  '>unfollow</button>
+                                    <hr/>
+                                    <button className='hover:bg-slate-400  '>Save post</button>
+                                    <hr/>
+                                    <button className='hover:bg-slate-400  '>Report post</button>
                                 </> : <>
-                                    <button className='hover:bg-slate-400 border-y-2 '>Delete</button>
-                                    <button className='hover:bg-slate-400 border-y-2 '>Edit</button>
-                                    <button className='hover:bg-slate-400 border-y-2'>Hide post</button></>}
+                                    <button className='hover:bg-slate-400 '>Delete</button>
+                                    <hr/>
+                                    <button className='hover:bg-slate-400 '>Edit</button>
+                                    <hr/>
+                                    <button className='hover:bg-slate-400 '>Hide post</button></>}
                             </div>}
 
                         <span onClick={() => setShowMenu(!showMenu)} className='rounded-full cursor-pointer hover:bg-slate-200' ><MoreHorizIcon /></span>

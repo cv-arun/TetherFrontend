@@ -1,25 +1,49 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import StoriesThumbnails from './storiesThumbnails';
 import CreatePost from './createPost';
 import Post from './post';
-import getPost from '../api.js/getAllPost';
-import {useSelector} from 'react-redux';
+import getPost, { getPostChunk } from '../api.js/getAllPost';
+import { useSelector } from 'react-redux';
 
 function Feed() {
-  const refresh=useSelector(state=>state.refresh.refresh)
+  const refresh = useSelector(state => state.refresh.refresh)
+  const limit = 5
+  const [page, setPage] = useState(1);
+  const [pageStack, setPageStack] = useState({})
   const [post, setPost] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [lastPage, setLastPage] = useState(false)
+
   useEffect(() => {
-    getPost(false).then(data => {
-      console.log(data,'post')
-        setPost(data)
-    })
-}, [refresh])
+    fetchPost()
+  }, [refresh, page])
+
+  const fetchPost = async () => {
+    setLoading(true)
+    const data = await getPostChunk(false, page,limit);
+    console.log(data)
+    if (data?.length < limit) {
+      setLastPage(true)
+    }
+    if (data && !pageStack[page]) {
+      setPost([...post, ...data])
+      setPageStack({ page })
+    }
+    setLoading(false)
+  }
+  const loadMore = () => {
+    setPage(page + 1)
+  }
 
   return (
     <div className="flex flex-col justify-center mx-auto md:max-w-[690px] w-full z-10 ">
       {/* <StoriesThumbnails /> */}
       <CreatePost />
-     { post.map((post)=><Post key={post._id} curr={post} />)}
+      {post.map((post) => <Post key={post._id} curr={post} />)}
+      {!lastPage ? <div className='max-w-[690px] shadow my-1 bg-white rounded-sm flex justify-center cursor-pointer'
+        onClick={!loading ? loadMore : ''}>
+        {loading ? 'Loading' : 'Load More posts'}
+      </div> : null}
     </div>
 
 
