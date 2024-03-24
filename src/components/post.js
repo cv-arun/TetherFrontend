@@ -16,6 +16,7 @@ import { refreshReducer } from '../redux/refreshSLice';
 import { useDispatch } from 'react-redux';
 import removeCommenent from '../api.js/removeComment';
 import FiberManualRecordOutlinedIcon from '@mui/icons-material/FiberManualRecordOutlined';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -24,48 +25,55 @@ function Post({ curr }) {
 
     const user = useSelector((state) => state.userReducer.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [postData, setPostData] = useState(curr)
     const [openComment, setopenComment] = useState(false)
     const [comment, setComment] = useState('')
     const [showMenu, setShowMenu] = useState(false)
     const [liked, setLiked] = useState(false)
-    const hitLikes = (curr) => {
-        hitLIke(curr._id).then(data => {
+    const hitLikes = (postData) => {
+        hitLIke(postData._id).then(data => {
             data.msg === 'Liked' && setLiked(true)
             data.msg === 'Unliked' && setLiked(false)
-            dispatch(refreshReducer())
+            setPostData(data.post)
+            // dispatch(refreshReducer())
         })
     }
 
     const addCommnet = () => {
         console.log('add')
-        sendCommnet(curr._id, comment).then(data => {
+        sendCommnet(postData._id, comment).then(data => {
             console.log(data, 'cmnt')
             setComment('')
-            dispatch(refreshReducer())
+            setPostData(data.post)
+
+            // dispatch(refreshReducer())
         })
     }
     const deleteComment = (commentId) => {
-        removeCommenent(curr._id, commentId).then(data => {
+        removeCommenent(postData._id, commentId).then(data => {
             console.log(data)
-            dispatch(refreshReducer())
+            setPostData(data.post)
+
+            // dispatch(refreshReducer())
         })
     }
     useEffect(() => {
-        curr.Likes.includes(user.userId) ? setLiked(true) : setLiked(false)
-    }, [])
+        postData.Likes.includes(user.userId) ? setLiked(true) : setLiked(false)
+    }, [postData, user])
     return (
         <>
-            <div key={curr._id} className='max-w-[690px] shadow my-1 bg-white rounded-lg flex flex-col'>
+            <div key={postData._id} className='max-w-[690px] shadow my-1 bg-white rounded-lg flex flex-col'>
                 <div className='flex mt-2 px-3'>
 
-                    <img className='h-[80px] w-[80px] min-w-[80px] min-h-80 object-cover rounded-full' src={curr.user.picture} loading="lazy" alt='failed to load profile' />
+                    <img className='h-[80px] w-[80px] min-w-[80px] min-h-80 object-cover rounded-full' src={postData.user.picture} loading="lazy" alt='failed to load profile' />
 
                     <div className='m-3 '>
-                        <h3 className='m-1 text-lg '>{curr.user.first_name}</h3>
+                        <h3 className='m-1 text-lg '>{postData.user.first_name}</h3>
                         <div className='flex'>
-                            <div className='mx-2'>{curr.privacy === 'public' ? <PublicIcon /> : <PeopleIcon />}</div>
+                            <div className='mx-2'>{postData.privacy === 'public' ? <PublicIcon /> : <PeopleIcon />}</div>
                             <div className=' flex '>
-                                <Moment className=' w-[80px] flex justify-end mr-1' element="span" fromNow ago>{curr.createdAt}</Moment> ago
+                                <Moment className=' w-[80px] flex justify-end mr-1' element="span" fromNow ago>{postData.createdAt}</Moment> ago
                             </div>
                         </div>
                     </div>
@@ -74,17 +82,17 @@ function Post({ curr }) {
                         {showMenu &&
                             <div className='w-[150px] h-fit absolute z-50 bg-white shadow-2xl rounded p-4 mr-8 flex flex-col gap-4'>
 
-                                {user.userId !== curr.user._id ? <>
+                                {user.userId !== postData.user._id ? <>
                                     <button className='hover:bg-slate-400  '>unfollow</button>
-                                    <hr/>
+                                    <hr />
                                     <button className='hover:bg-slate-400  '>Save post</button>
-                                    <hr/>
+                                    <hr />
                                     <button className='hover:bg-slate-400  '>Report post</button>
                                 </> : <>
                                     <button className='hover:bg-slate-400 '>Delete</button>
-                                    <hr/>
+                                    <hr />
                                     <button className='hover:bg-slate-400 '>Edit</button>
-                                    <hr/>
+                                    <hr />
                                     <button className='hover:bg-slate-400 '>Hide post</button></>}
                             </div>}
 
@@ -94,21 +102,21 @@ function Post({ curr }) {
 
                 </div>
                 <div className='m-5 max-h-[500px] overflow-y-auto scrollbar-hide '>
-                    <p>{curr.text}</p>
+                    <p>{postData.text}</p>
                 </div>
-                {curr.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide snap-mandatory snap-x '>
-                    {curr.images.map((img, i) => (<div className=' min-w-full snap-center'><img className='max-h-[500px] object-contain w-full' src={img.url} alt='failed to load' loading="lazy" /></div>))}
+                {postData.images[0] && <div className='m-5 mb-0 overflow-y-auto flex scrollbar-hide snap-mandatory snap-x '>
+                    {postData.images.map((img, i) => (<div className=' min-w-full snap-center'><img className='max-h-[500px] object-contain w-full' src={img.url} alt='failed to load' loading="lazy" /></div>))}
                 </div>}
-                {curr.images.length > 1 ? <span className='flex justify-center snap-always snap-center'>{curr.images.map(() => <FiberManualRecordOutlinedIcon />)}</span> : ''}
+                {postData.images.length > 1 ? <span className='flex justify-center snap-always snap-center'>{curr.images.map(() => <FiberManualRecordOutlinedIcon />)}</span> : ''}
                 <div >
                     <div className='my-3 mx-5 flex flex-row justify-between z-0'>
-                        <p >{curr.Likes?.length} Likes</p>
-                        <p>{curr.comments?.length} comments</p>
+                        <p >{postData.Likes?.length} Likes</p>
+                        <p>{postData.comments?.length} comments</p>
                     </div>
                     <hr />
                     <div className='p-3 flex justify-around'>
                         <span className='active:scale-150 '>
-                            <Button onClick={() => hitLikes(curr)}>
+                            <Button onClick={() => hitLikes(postData)}>
                                 {!liked ? <ThumbUpOutlinedIcon /> : <ThumbUpIcon />}
                                 Like
                             </Button>
@@ -134,9 +142,9 @@ function Post({ curr }) {
                             </div>
                         </div>
                         <div className='flex flex-col max-h-[300px] overflow-y-auto scrollbar-hide'>
-                            {curr.comments?.map((i) => <div key={i._id} className='flex m-3'>
+                            {postData.comments?.map((i) => <div key={i._id} className='flex m-3'>
                                 <div className='md:w-1/6 w-2/6'>
-                                    <img className='ml-5 max-h-12 rounded-full' src={i.commentBy?.picture} alt='profile' />
+                                    <img className='ml-5 max-h-12 rounded-full cursor-pointer' onClick={()=>navigate(`/profiles/${i.commentBy?._id}`)}  src={i.commentBy?.picture} alt='profile' />
                                 </div>
 
                                 <div className='  w-full mr-5 flex flex-col'>
@@ -148,7 +156,7 @@ function Post({ curr }) {
                                         <span>
                                             <Moment className=' mx-2 w-[80px]' element="span" fromNow ago>{i.commentAt}</Moment>ago
                                         </span>
-                                        {user.userId === (i.commentBy?._id || curr.user._id) && <span onClick={() => deleteComment(i._id)}>delete</span>}
+                                        {user.userId === (i.commentBy?._id || postData.user._id) && <span className='cursor-pointer' onClick={() => deleteComment(i._id)}>delete</span>}
                                     </span>
                                 </div>
                             </div>)}

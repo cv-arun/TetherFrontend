@@ -20,14 +20,15 @@ function Feed() {
 
   const fetchPost = async () => {
     setLoading(true)
+    console.log(pageStack,"page stack",page)
     const data = await getPostChunk(false, page,limit);
     console.log(data)
     if (data?.length < limit) {
       setLastPage(true)
-    }
+    } 
     if (data && !pageStack[page]) {
       setPost([...post, ...data])
-      setPageStack({ page })
+      setPageStack({ [page]:page })
     }
     setLoading(false)
   }

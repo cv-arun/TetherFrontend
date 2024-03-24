@@ -17,7 +17,7 @@ function Community() {
     const [people, setPeople] = useState([])
     const [followers, setfollowers] = useState([])
     const [following, setfollowing] = useState([])
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         tabs === 3 && getPeople().then(data => {
@@ -66,7 +66,7 @@ function Community() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => removeFollow(friendId).then(data=>setTabs(3)).catch(err=>console.log(err))
+                    onClick: () => removeFollow(friendId).then(data => setTabs(3)).catch(err => console.log(err))
                 },
                 {
                     label: 'No',
@@ -75,18 +75,18 @@ function Community() {
             ]
         });
     };
-   
+
     return (
         <>
             <div className="flex flex-col justify-center mx-auto md:max-w-[690px] w-full  rounded-lg gap-2 ">
                 <div className='flex h-16 bg-white'>
-                    <button onClick={() => setTabs(1)} className='w-1/3 text-center md:text-2xl  text-sm py-4 focus:border-2 focus:border-b-blue-500'>
+                    <button onClick={() => setTabs(1)} className={`w-1/3 text-center md:text-2xl  text-sm py-4 focus:border-2 ${tabs === 1 ? 'border-2 border-b-blue-500' : ''}`}>
                         Followers
                     </button>
-                    <button onClick={() => setTabs(2)} className='w-1/3 text-center md:text-2xl  text-sm py-4 focus:border-2 focus:border-b-blue-500'>
+                    <button onClick={() => setTabs(2)} className={`w-1/3 text-center md:text-2xl  text-sm py-4 ${tabs === 2 ? ' border-2 border-b-blue-500' : ''}`}>
                         Following
                     </button>
-                    <button onClick={() => setTabs(3)} className='w-1/3 text-center md:text-xl text-xs py-4 focus:border-2 focus:border-b-blue-500'>
+                    <button onClick={() => setTabs(3)} className={`w-1/3 text-center md:text-xl text-xs py-4 ${tabs === 3 ? ' border-2 border-b-blue-500' : ''}`}>
                         People you may know
                     </button>
                 </div>
@@ -94,10 +94,10 @@ function Community() {
                 {tabs === 1 && <div className='flex flex-wrap gap-2 '>
                     {followers?.map((curr, index) => {
                         return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px] mx-auto flex flex-col gap-3 h-fit p-2 rounded-xl'>
-                            <img src={curr.picture} alt='profile' className='rounded-xl' onClick={()=>navigate(`/profiles/${curr._id}`)}/>
+                            <img src={curr.picture} alt='profile' className='rounded-xl cursor-pointer h-[150px] object-cover' onClick={() => navigate(`/profiles/${curr._id}`)} />
                             <p className='px-1'>{curr.first_name}</p>
                             <div className='px-1'><Button className='w-full' variant="contained"
-                                onClick={()=>confirm(curr._id)}>Remove</Button></div>
+                                onClick={() => confirm(curr._id)}>Remove</Button></div>
                         </div>
                     })}
 
@@ -108,7 +108,7 @@ function Community() {
                 {tabs === 2 && <div className='flex flex-wrap gap-2 ' onClick={handleClick2}>
                     {following?.map((curr, index) => {
                         return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px] mx-auto flex flex-col gap-3 h-fit p-2 rounded-xl'>
-                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner' onClick={()=>navigate(`/profiles/${curr._id}`)}/>
+                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner cursor-pointer h-[150px] object-cover' onClick={() => navigate(`/profiles/${curr._id}`)} />
                             <p className='px-1'>{`${curr.first_name} ${curr.last_name}`}</p>
                             <div className='px-1'><Button id={`${curr._id}`} className='w-full' variant="contained">Following</Button></div>
                         </div>
@@ -117,8 +117,8 @@ function Community() {
                 </div>}
                 {tabs === 3 && <div className='flex flex-wrap gap-4' onClick={handleClick}>
                     {people?.map((curr, index) => {
-                        return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px]  mx-auto flex flex-col gap-2 h-fit p-2 rounded-xl'>
-                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner' onClick={()=>navigate(`/profiles/${curr._id}`)}/>
+                        return <div key={index} className='bg-white shadow-lg w-[150px] md:w-[180px]  mx-auto flex flex-col gap-2 h-fit p-2 rounded-xl cursor-pointer'>
+                            <img src={curr.picture} alt='profile' className='rounded-xl shadow-inner h-[150px] object-cover' onClick={() => navigate(`/profiles/${curr._id}`)} />
                             <p className='px-1'>{curr.first_name + ' ' + curr.last_name}</p>
                             <div className='px-1'><Button id={`${curr._id}`} className='w-full' variant="contained">Follow</Button></div>
                         </div>
