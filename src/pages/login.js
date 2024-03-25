@@ -48,12 +48,7 @@ function Login() {
         })
     }
 
-    const MaskPassword = (pass) => {
-        const replacedString = pass.replaceAll(/[a-zA-Z]/g, "•");
-        console.log(replacedString);
-        return replacedString
-
-    }
+   
 
     useEffect(() => {
         return clearData()
@@ -62,7 +57,7 @@ function Login() {
     return (
         <div >
 
-            <section className="bg-gray-50 min-h-screen ">
+            <section className="bg-gray-50 min-h-screen flex flex-col justify-center ">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     {/* <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 ">
                         <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
@@ -73,12 +68,14 @@ function Login() {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                                 Sign in to your account
                             </h1>
-                            <GoogleLogin
-                                onSuccess={credentialResponse}
-                                onError={() => {
-                                    console.log('Login Failed');
-                                }}
-                            />
+                            <div className=' w-full flex justify-center'>
+                                <GoogleLogin
+                                    onSuccess={credentialResponse}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />
+                            </div>
                             <div className='flex gap-2 '>
                                 <div className='flex flex-col justify-center w-[45%]'><hr className='text-black' /></div>
                                 <div><span className='bg-white'>Or</span></div>
@@ -108,7 +105,7 @@ function Login() {
                                             placeholder="••••••••"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required=""
                                         />
-                                        <div className='w-[30px] absolute h-[41px] flex flex-col justify-center cursor-pointer' onClick={()=>setMask(!mask)}>
+                                        <div className='w-[30px] absolute h-[41px] flex flex-col justify-center cursor-pointer' onClick={() => setMask(!mask)}>
                                             {mask ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                         </div>
                                     </div>

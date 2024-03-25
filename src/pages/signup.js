@@ -46,6 +46,7 @@ function Signup() {
         console.log(data)
        const response = await axios.post('/signup', data)
             console.log(response.data)
+            scrollToTop()
             response.data.msg ? setMsg(response.data.msg) : response.data.userId && navigate('/login');
     }
    
