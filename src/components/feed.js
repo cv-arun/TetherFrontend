@@ -37,7 +37,7 @@ function Feed() {
   }
 
   return (
-    <div className="flex flex-col justify-center mx-auto md:max-w-[690px] w-full z-10 ">
+    <div className="flex flex-col justify-center mx-auto md:max-w-[690px] w-full z-10 pb-14">
       {/* <StoriesThumbnails /> */}
       <CreatePost />
       {post.map((post) => <Post key={post._id} curr={post} />)}
