@@ -61,7 +61,7 @@ function Profile() {
                 <Modal2 />
 
             </div>
-            <div className='border-x-2  max-w-[690px]  mx-auto shadow-md flex flex-col rounded-md'>
+            <div className='border-x-2  max-w-[690px]  mx-auto shadow-md flex flex-col rounded-md pb-10'>
                 {post.map((post) => <Post key={post._id} curr={post} />)}
             </div>
         </>

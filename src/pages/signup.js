@@ -74,15 +74,15 @@ function Signup() {
                             <span className='text-red-600'>{msg}</span>
                             <div class="space-y-4 md:space-y-6" action="#">
                                 <div>
-                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
+                                    <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
                                     <input
                                         type="email"
                                         value={data.email}
                                         name='email'
-                                        onChange={(e) => { setData(e) }} id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" required="" />
+                                        onChange={(e) => { setData(e) }} id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@domain.com" required="" />
                                 </div>
                                 <div>
-                                    <label for="fname" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
+                                    <label htmlFor="fname" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
                                     <input
                                         type="text"
                                         value={data.fname}
@@ -92,7 +92,7 @@ function Signup() {
                                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="first name" required="" />
                                 </div>
                                 <div>
-                                    <label for="lname" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
+                                    <label htmlFor="lname" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
                                     <input
                                         type="text"
                                         value={data.lname}
@@ -102,7 +102,7 @@ function Signup() {
                                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="last name" required="" />
                                 </div>
                                 <div>
-                                    <label for="dob" class="block mb-2 text-sm font-medium text-gray-900 ">Date of birth</label>
+                                    <label htmlFor="dob" class="block mb-2 text-sm font-medium text-gray-900 ">Date of birth</label>
                                     <input
                                         type="date"
                                         value={data.dob}
@@ -131,7 +131,7 @@ function Signup() {
                                     </RadioGroup>
                                 </div>
                                 <div>
-                                    <label for="password" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
                                     <div className='flex justify-end'>
                                         <input
                                             type={mask ? 'password' : 'text'}
@@ -148,7 +148,7 @@ function Signup() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label for="cpassword" className="block mb-2 text-sm font-medium text-gray-900 ">Confirm Password</label>
+                                    <label htmlFor="cpassword" className="block mb-2 text-sm font-medium text-gray-900 ">Confirm Password</label>
                                     <div className='flex justify-end'>
 
                                         <input
@@ -170,7 +170,7 @@ function Signup() {
                                         <input id="terms" aria-describedby="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300" required="" />
                                     </div>
                                     <div class="ml-3 text-sm">
-                                        <label for="terms" class="font-light text-gray-500 ">I accept the <p class="font-medium text-primary-600 hover:underline" href="#">Terms and Conditions</p></label>
+                                        <label htmlFor="terms" class="font-light text-gray-500 ">I accept the <p class="font-medium text-primary-600 hover:underline" href="#">Terms and Conditions</p></label>
                                     </div>
                                 </div>
                                 <button onClick={handleSubmit} class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an account</button>

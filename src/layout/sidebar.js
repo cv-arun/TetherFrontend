@@ -138,7 +138,7 @@ export default function Sidebar(props) {
     }, [])
 
     const isMob = useMediaQuery({
-        query: '(max-width: 450px)'
+        query: '(max-width: 600px)'
     })
 
     const dispatch = useDispatch()

@@ -42,7 +42,7 @@ function Feed() {
       <CreatePost />
       {post.map((post) => <Post key={post._id} curr={post} />)}
       {!lastPage ? <div className='max-w-[690px] shadow my-1 bg-white rounded-sm flex justify-center cursor-pointer'
-        onClick={!loading ? loadMore : ''}>
+        onClick={!loading ? loadMore : null}>
         {loading ? 'Loading' : 'Load More posts'}
       </div> : null}
     </div>
