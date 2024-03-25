@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux'
 function Chat() {
     
     const showChat=useSelector(state=>state.getChat.openChatBox)
-    const isMobile = useMediaQuery({ maxWidth: 450 })
+    const isMobile = useMediaQuery({ maxWidth: 600 })
     return (
         <>
             {isMobile ?
